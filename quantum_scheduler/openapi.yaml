@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Quantum Resource Scheduler
+  description: API for checking availability and booking High-Performance Compute nodes.
+  version: 1.0.0
+servers:
+  - url: `https://your-code-engine-app.us-south.codeengine.appdomain.cloud`
+paths:
+  /check-availability:
+    get:
+      operationId: check_resource_availability
+      summary: Check if a quantum node is free.
+      description: Returns available status or details of the conflicting booking (including user priority).
+      parameters:
+        - name: resource_id
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "resource:quantum_eagle_01"
+        - name: start_time
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            example: "2026-10-27T14:00:00Z"
+        - name: end_time
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            example: "2026-10-27T16:00:00Z"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [available, conflict]
+                  blocking_booking:
+                    type: object
+                    description: Details of the booking holding the slot. Used for preemption logic.
+
+  /book-slot:
+    post:
+      operationId: create_booking
+      summary: Book a time slot.
+      description: Fails if status is active conflict.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resource_id:
+                  type: string
+                user_id:
+                  type: string
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+                project_priority:
+                  type: string
+                  enum: [standard, high, critical]
+      responses:
+        '201':
+          description: Booking Created
