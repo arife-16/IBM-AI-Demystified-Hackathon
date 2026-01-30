@@ -8,6 +8,9 @@ WORKDIR /app
 # Copy local code to the container image.
 COPY . ./
 
+# List files to verify copy (for debugging)
+RUN ls -la /app
+
 # Install production dependencies.
 RUN pip install --no-cache-dir -r requirements.txt
 
