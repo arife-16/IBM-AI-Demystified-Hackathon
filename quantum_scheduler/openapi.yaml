@@ -4,7 +4,7 @@ info:
   description: API for checking availability and booking High-Performance Compute nodes.
   version: 1.0.0
 servers:
-  - url: `https://quantum-scheduler.25qtsabrhn6y.eu-de.codeengine.appdomain.cloud/`
+  - url: https://quantum-scheduler.25qtsabrhn6y.eu-de.codeengine.appdomain.cloud/
 paths:
   /check-availability:
     get:
