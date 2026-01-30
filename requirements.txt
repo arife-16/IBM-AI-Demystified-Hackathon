@@ -1,5 +1,0 @@
-flask==3.0.0
-ibmcloudant==0.9.1
-ibm-cloud-sdk-core==3.20.3
-gunicorn==21.2.0
-python-dotenv
